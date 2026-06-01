@@ -1,1 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroVerde - Gestão Agropecuária</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f9f0, #e6f3e6);
+        }
+        .nav-link {
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: #166534 !important;
+        }
+        .card {
+            transition: all 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- HEADER -->
+    <header class="bg-green-800 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <i class="fas fa-leaf text-4xl"></i>
+                <div>
+                    <h1 class="text-3xl font-bold">AgroVerde</h1>
+                    <p class="text-green-200 text-sm -mt-1">Agropecuária Inteligente</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <nav class="hidden md:flex gap-8 text-lg">
+                    <a href="#" onclick="showSection('home')" class="nav-link text-white font-medium">Início</a>
+                    <a href="#" onclick="showSection('clientes')" class="nav-link text-white font-medium">Clientes</a>
+                    <a href="#" onclick="showSection('produtos')" class="nav-link text-white font-medium">Produtos</a>
+                    <a href="#" onclick="showSection('vendas')" class="nav-link text-white font-medium">Vendas</a>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <span id="user-info" class="text-sm hidden"></span>
+                    <button onclick="logout()" class="bg-green-700 hover:bg-green-600 px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- HOME -->
+        <div id="home" class="section">
+            <div class="text-center py-16">
+                <i class="fas fa-seedling text-8xl text-green-600 mb-6"></i>
+                <h2 class="text-5xl font-bold text-green-900 mb-4">Bem-vindo à AgroVerde</h2>
+                <p class="text-xl text-green-700 max-w-2xl mx-auto">Gestão completa para sua propriedade rural: clientes, produtos agropecuários e vendas.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+                    <div class="bg-white p-8 rounded-2xl card shadow">
+                        <i class="fas fa-users text-5xl text-green-600 mb-4"></i>
+                        <h3 class="text-2xl font-semibold mb-2">Clientes</h3>
+                        <p class="text-gray-600">Gestão de produtores, compradores e cooperados</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl card shadow">
+                        <i class="fas fa-boxes-stacked text-5xl text-green-600 mb-4"></i>
+                        <h3 class="text-2xl font-semibold mb-2">Produtos</h3>
+                        <p class="text-gray-600">Sementes, defensivos, fertilizantes, grãos e animais</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl card shadow">
+                        <i class="fas fa-handshake text-5xl text-green-600 mb-4"></i>
+                        <h3 class="text-2xl font-semibold mb-2">Vendas</h3>
+                        <p class="text-gray-600">Registro rápido e controle financeiro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLIENTES -->
+        <div id="clientes" class="section hidden">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-green-900">Clientes</h2>
+                <button onclick="showModal('cliente-modal')" class="bg-green-700 hover:bg-green-600 text-white px-6 py-3 rounded-xl flex items-center gap-3">
+                    <i class="fas fa-plus"></i> Novo Cliente
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-green-700 text-white">
+                        <tr>
+                            <th class="text-left">Nome</th>
+                            <th class="text-left">Email</th>
+                            <th class="text-left">Telefone</th>
+                            <th class="text-left">Tipo</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientes-table" class="divide-y"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PRODUTOS -->
+        <div id="produtos" class="section hidden">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-green-900">Produtos</h2>
+                <button onclick="showModal('produto-modal')" class="bg-green-700 hover:bg-green-600 text-white px-6 py-3 rounded-xl flex items-center gap-3">
+                    <i class="fas fa-plus"></i> Novo Produto
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-green-700 text-white">
+                        <tr>
+                            <th class="text-left">Produto</th>
+                            <th class="text-left">Categoria</th>
+                            <th class="text-right">Preço (R$)</th>
+                            <th class="text-center">Estoque</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtos-table" class="divide-y"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VENDAS -->
+        <div id="vendas" class="section hidden">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-green-900">Nova Venda</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Formulário de Venda -->
+                <div class="bg-white p-8 rounded-2xl shadow">
+                    <h3 class="font-semibold text-xl mb-6">Registrar Venda</h3>
+                    <select id="venda-cliente" class="w-full p-4 border rounded-xl mb-4">
+                        <option value="">Selecione o cliente...</option>
+                    </select>
+                    
+                    <div class="flex gap-4">
+                        <select id="venda-produto" class="flex-1 p-4 border rounded-xl">
+                            <option value="">Produto...</option>
+                        </select>
+                        <input type="number" id="venda-qtd" placeholder="Qtd" class="w-28 p-4 border rounded-xl">
+                    </div>
+                    
+                    <button onclick="adicionarItemVenda()" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-medium">
+                        Adicionar Item
+                    </button>
+
+                    <div id="itens-venda" class="mt-8 space-y-3"></div>
+
+                    <div class="mt-8 pt-6 border-t">
+                        <div class="flex justify-between text-xl font-bold">
+                            <span>Total:</span>
+                            <span id="total-venda">R$ 0,00</span>
+                        </div>
+                        <button onclick="finalizarVenda()" class="mt-6 w-full bg-emerald-700 hover:bg-emerald-800 text-white py-5 rounded-2xl text-lg font-semibold">
+                            Finalizar Venda
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Histórico -->
+                <div>
+                    <h3 class="font-semibold text-xl mb-6">Vendas Realizadas</h3>
+                    <div id="historico-vendas" class="space-y-4 max-h-[600px] overflow-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CLIENTE -->
+    <div id="cliente-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+        <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-auto">
+            <div class="p-8">
+                <h3 class="text-2xl font-bold mb-8">Cadastro de Cliente</h3>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <input id="c-nome" placeholder="Nome Completo" class="p-4 border rounded-2xl">
+                    <input id="c-email" type="email" placeholder="E-mail" class="p-4 border rounded-2xl">
+                    <input id="c-telefone" placeholder="Telefone" class="p-4 border rounded-2xl">
+                    <input id="c-cpf" placeholder="CPF/CNPJ" class="p-4 border rounded-2xl">
+                    <input id="c-endereco" placeholder="Endereço" class="p-4 border rounded-2xl col-span-2">
+                    <input id="c-cidade" placeholder="Cidade" class="p-4 border rounded-2xl">
+                    <select id="c-tipo" class="p-4 border rounded-2xl">
+                        <option value="Produtor">Produtor Rural</option>
+                        <option value="Comprador">Comprador</option>
+                        <option value="Cooperado">Cooperado</option>
+                        <option value="Fornecedor">Fornecedor</option>
+                    </select>
+                    <input id="c-area" placeholder="Área (hectares)" class="p-4 border rounded-2xl">
+                    <input id="c-principal" placeholder="Cultura Principal" class="p-4 border rounded-2xl">
+                    <textarea id="c-obs" placeholder="Observações" class="p-4 border rounded-2xl col-span-2 h-24"></textarea>
+                </div>
+
+                <div class="flex gap-4 mt-10">
+                    <button onclick="salvarCliente()" class="flex-1 bg-green-700 text-white py-4 rounded-2xl font-semibold">Salvar Cliente</button>
+                    <button onclick="hideModal('cliente-modal')" class="flex-1 bg-gray-200 py-4 rounded-2xl font-semibold">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PRODUTO -->
+    <div id="produto-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+        <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-auto">
+            <div class="p-8">
+                <h3 class="text-2xl font-bold mb-8">Cadastro de Produto</h3>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <input id="p-nome" placeholder="Nome do Produto" class="p-4 border rounded-2xl col-span-2">
+                    <select id="p-categoria" class="p-4 border rounded-2xl">
+                        <option value="Sementes">Sementes</option>
+                        <option value="Fertilizantes">Fertilizantes</option>
+                        <option value="Defensivos">Defensivos Agrícolas</option>
+                        <option value="Grãos">Grãos</option>
+                        <option value="Maquinário">Maquinário</option>
+                        <option value="Animais">Animais</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                    <input id="p-preco" type="number" step="0.01" placeholder="Preço (R$)" class="p-4 border rounded-2xl">
+                    <input id="p-estoque" type="number" placeholder="Estoque Inicial" class="p-4 border rounded-2xl">
+                    <input id="p-unidade" placeholder="Unidade (kg, L, un, cabeça)" class="p-4 border rounded-2xl">
+                    <input id="p-fornecedor" placeholder="Fornecedor" class="p-4 border rounded-2xl">
+                    <input id="p-validade" type="date" placeholder="Validade" class="p-4 border rounded-2xl">
+                    <textarea id="p-desc" placeholder="Descrição" class="p-4 border rounded-2xl col-span-2 h-24"></textarea>
+                </div>
+
+                <div class="flex gap-4 mt-10">
+                    <button onclick="salvarProduto()" class="flex-1 bg-green-700 text-white py-4 rounded-2xl font-semibold">Salvar Produto</button>
+                    <button onclick="hideModal('produto-modal')" class="flex-1 bg-gray-200 py-4 rounded-2xl font-semibold">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
+        <div class="bg-white rounded-3xl p-10 w-full max-w-md">
+            <div class="text-center mb-8">
+                <i class="fas fa-lock text-5xl text-green-700"></i>
+                <h3 class="text-2xl font-bold mt-4">Acesso Restrito</h3>
+                <p class="text-gray-600">Área de Cadastros</p>
+            </div>
+            <input id="login-email" type="email" placeholder="E-mail" value="m.schlindwein@escola.pr.gov.br" class="w-full p-4 border rounded-2xl mb-4">
+            <input id="login-senha" type="password" placeholder="Senha" value="123456" class="w-full p-4 border rounded-2xl mb-6">
+            <button onclick="fazerLogin()" class="w-full bg-green-700 hover:bg-green-800 text-white py-4 rounded-2xl text-lg font-semibold">Entrar</button>
+            <p class="text-center text-sm text-gray-500 mt-6">Apenas o administrador tem acesso ao cadastro</p>
+        </div>
+    </div>
+
+    <script>
+        // Dados
+        let clientes = JSON.parse(localStorage.getItem('agro_clientes')) || [];
+        let produtos = JSON.parse(localStorage.getItem('agro_produtos')) || [];
+        let vendas = JSON.parse(localStorage.getItem('agro_vendas')) || [];
+        let itensVendaAtual = [];
+        let usuarioLogado = null;
+
+        const ADMIN_EMAIL = "m.schlindwein@escola.pr.gov.br";
+        const ADMIN_SENHA = "123456";
+
+        // Funções de navegação
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(section).classList.remove('hidden');
+            
+            if (section === 'clientes') carregarClientes();
+            if (section === 'produtos') carregarProdutos();
+            if (section === 'vendas') carregarOpcoesVenda();
+        }
+
+        // Modal
+        function showModal(id) {
+            if ((id === 'cliente-modal' || id === 'produto-modal') && usuarioLogado !== ADMIN_EMAIL) {
+                alert("Acesso negado! Apenas o administrador pode cadastrar.");
+                return;
+            }
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function hideModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Login
+        function fazerLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const senha = document.getElementById('login-senha').value.trim();
+
+            if (email === ADMIN_EMAIL && senha === ADMIN_SENHA) {
+                usuarioLogado = email;
+                document.getElementById('login-modal').classList.add('hidden');
+                document.getElementById('user-info').classList.remove('hidden');
+                document.getElementById('user-info').innerHTML = `👨‍🌾 ${email}`;
+                showSection('home');
+            } else {
+                alert("Credenciais inválidas!");
+            }
+        }
+
+        function logout() {
+            if (confirm("Deseja sair do sistema?")) {
+                window.location.reload();
+            }
+        }
+
+        // Clientes (10 campos)
+        function salvarCliente() {
+            const cliente = {
+                id: Date.now(),
+                nome: document.getElementById('c-nome').value,
+                email: document.getElementById('c-email').value,
+                telefone: document.getElementById('c-telefone').value,
+                cpf: document.getElementById('c-cpf').value,
+                endereco: document.getElementById('c-endereco').value,
+                cidade: document.getElementById('c-cidade').value,
+                tipo: document.getElementById('c-tipo').value,
+                area: document.getElementById('c-area').value,
+                culturaPrincipal: document.getElementById('c-principal').value,
+                observacoes: document.getElementById('c-obs').value,
+                dataCadastro: new Date().toISOString()
+            };
+
+            clientes.push(cliente);
+            localStorage.setItem('agro_clientes', JSON.stringify(clientes));
+            hideModal('cliente-modal');
+            carregarClientes();
+            limparFormularioCliente();
+        }
+
+        function limparFormularioCliente() {
+            document.getElementById('c-nome').value = '';
+            document.getElementById('c-email').value = '';
+            document.getElementById('c-telefone').value = '';
+            document.getElementById('c-cpf').value = '';
+            document.getElementById('c-endereco').value = '';
+            document.getElementById('c-cidade').value = '';
+            document.getElementById('c-area').value = '';
+            document.getElementById('c-principal').value = '';
+            document.getElementById('c-obs').value = '';
+        }
+
+        function carregarClientes() {
+            const tbody = document.getElementById('clientes-table');
+            tbody.innerHTML = '';
+            
+            clientes.forEach(cliente => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="font-medium">${cliente.nome}</td>
+                    <td>${cliente.email}</td>
+                    <td>${cliente.telefone}</td>
+                    <td><span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">${cliente.tipo}</span></td>
+                    <td class="text-center">
+                        <button onclick="editarCliente(${cliente.id})" class="text-blue-600 hover:text-blue-800 mr-4"><i class="fas fa-edit"></i></button>
+                        <button onclick="excluirCliente(${cliente.id})" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function excluirCliente(id) {
+            if (confirm("Excluir este cliente?")) {
+                clientes = clientes.filter(c => c.id !== id);
+                localStorage.setItem('agro_clientes', JSON.stringify(clientes));
+                carregarClientes();
+            }
+        }
+
+        function editarCliente(id) {
+            alert("Edição completa em desenvolvimento. Use exclusão + novo cadastro por enquanto.");
+        }
+
+        // Produtos (10 campos)
+        function salvarProduto() {
+            const produto = {
+                id: Date.now(),
+                nome: document.getElementById('p-nome').value,
+                categoria: document.getElementById('p-categoria').value,
+                preco: parseFloat(document.getElementById('p-preco').value),
+                estoque: parseInt(document.getElementById('p-estoque').value),
+                unidade: document.getElementById('p-unidade').value,
+                fornecedor: document.getElementById('p-fornecedor').value,
+                validade: document.getElementById('p-validade').value,
+                descricao: document.getElementById('p-desc').value,
+                dataCadastro: new Date().toISOString()
+            };
+
+            produtos.push(produto);
+            localStorage.setItem('agro_produtos', JSON.stringify(produtos));
+            hideModal('produto-modal');
+            carregarProdutos();
+            limparFormularioProduto();
+        }
+
+        function limparFormularioProduto() {
+            document.getElementById('p-nome').value = '';
+            document.getElementById('p-preco').value = '';
+            document.getElementById('p-estoque').value = '';
+            document.getElementById('p-unidade').value = '';
+            document.getElementById('p-fornecedor').value = '';
+            document.getElementById('p-validade').value = '';
+            document.getElementById('p-desc').value = '';
+        }
+
+        function carregarProdutos() {
+            const tbody = document.getElementById('produtos-table');
+            tbody.innerHTML = '';
+            
+            produtos.forEach(produto => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="font-medium">${produto.nome}</td>
+                    <td><span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm">${produto.categoria}</span></td>
+                    <td class="text-right font-semibold">R$ ${produto.preco.toFixed(2)}</td>
+                    <td class="text-center">
+                        <span class="px-4 py-1 ${produto.estoque < 10 ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'} rounded-full">
+                            ${produto.estoque} ${produto.unidade}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <button onclick="editarProduto(${produto.id})" class="text-blue-600 hover:text-blue-800 mr-4"><i class="fas fa-edit"></i></button>
+                        <button onclick="excluirProduto(${produto.id})" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function excluirProduto(id) {
+            if (confirm("Excluir produto?")) {
+                produtos = produtos.filter(p => p.id !== id);
+                localStorage.setItem('agro_produtos', JSON.stringify(produtos));
+                carregarProdutos();
+            }
+        }
+
+        function editarProduto(id) {
+            alert("Edição completa em desenvolvimento.");
+        }
+
+        // Vendas
+        function carregarOpcoesVenda() {
+            const selectCliente = document.getElementById('venda-cliente');
+            selectCliente.innerHTML = '<option value="">Selecione o cliente...</option>';
+            clientes.forEach(c => {
+                selectCliente.innerHTML += `<option value="${c.id}">${c.nome}</option>`;
+            });
+
+            const selectProduto = document.getElementById('venda-produto');
+            selectProduto.innerHTML = '<option value="">Produto...</option>';
+            produtos.forEach(p => {
+                selectProduto.innerHTML += `<option value="${p.id}">${p.nome} - R$ ${p.preco}</option>`;
+            });
+        }
+
+        function adicionarItemVenda() {
+            const produtoId = parseInt(document.getElementById('venda-produto').value);
+            const qtd = parseInt(document.getElementById('venda-qtd').value);
+
+            if (!produtoId || !qtd) {
+                alert("Selecione produto e quantidade");
+                return;
+            }
+
+            const produto = produtos.find(p => p.id === produtoId);
+            if (!produto) return;
+
+            itensVendaAtual.push({
+                produtoId: produto.id,
+                nome: produto.nome,
+                preco: produto.preco,
+                quantidade: qtd,
+                subtotal: produto.preco * qtd
+            });
+
+            renderizarItensVenda();
+        }
+
+        function renderizarItensVenda() {
+            const container = document.getElementById('itens-venda');
+            container.innerHTML = '';
+            let total = 0;
+
+            itensVendaAtual.forEach((item, index) => {
+                total += item.subtotal;
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center bg-gray-50 p-4 rounded-2xl";
+                div.innerHTML = `
+                    <div>
+                        <strong>${item.nome}</strong><br>
+                        <span class="text-sm text-gray-600">${item.quantidade} x R$ ${item.preco.toFixed(2)}</span>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="font-semibold">R$ ${item.subtotal.toFixed(2)}</span>
+                        <button onclick="removerItemVenda(${index})" class="text-red-500"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('total-venda').textContent = `R$ ${total.toFixed(2)}`;
+        }
+
+        function removerItemVenda(index) {
+            itensVendaAtual.splice(index, 1);
+            renderizarItensVenda();
+        }
+
+        function finalizarVenda() {
+            if (itensVendaAtual.length === 0) {
+                alert("Adicione pelo menos um item");
+                return;
+            }
+
+            const clienteId = parseInt(document.getElementById('venda-cliente').value);
+            if (!clienteId) {
+                alert("Selecione um cliente");
+                return;
+            }
+
+            const venda = {
+                id: Date.now(),
+                clienteId: clienteId,
+                clienteNome: clientes.find(c => c.id === clienteId).nome,
+                data: new Date().toLocaleString('pt-BR'),
+                itens: [...itensVendaAtual],
+                total: itensVendaAtual.reduce((sum, item) => sum + item.subtotal, 0)
+            };
+
+            vendas.push(venda);
+            localStorage.setItem('agro_vendas', JSON.stringify(vendas));
+
+            // Atualizar estoque
+            venda.itens.forEach(item => {
+                const prod = produtos.find(p => p.id === item.produtoId);
+                if (prod) prod.estoque -= item.quantidade;
+            });
+            localStorage.setItem('agro_produtos', JSON.stringify(produtos));
+
+            alert("Venda realizada com sucesso!");
+            itensVendaAtual = [];
+            renderizarItensVenda();
+            carregarProdutos();
+            carregarHistoricoVendas();
+        }
+
+        function carregarHistoricoVendas() {
+            const container = document.getElementById('historico-vendas');
+            container.innerHTML = '';
+
+            vendas.slice().reverse().forEach(venda => {
+                const div = document.createElement('div');
+                div.className = "bg-white p-6 rounded-2xl shadow-sm border border-green-100";
+                div.innerHTML = `
+                    <div class="flex justify-between">
+                        <div>
+                            <strong>${venda.clienteNome}</strong>
+                            <p class="text-sm text-gray-500">${venda.data}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-bold text-green-700">R$ ${venda.total.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Inicialização
+        window.onload = () => {
+            // Dados de exemplo
+            if (clientes.length === 0) {
+                clientes = [
+                    {id: 1, nome: "João da Silva", email: "joao@email.com", telefone: "(41) 99999-0001", tipo: "Produtor"},
+                    {id: 2, nome: "Maria Oliveira", email: "maria@email.com", telefone: "(41) 98888-0002", tipo: "Cooperado"}
+                ];
+                localStorage.setItem('agro_clientes', JSON.stringify(clientes));
+            }
+
+            if (produtos.length === 0) {
+                produtos = [
+                    {id: 101, nome: "Semente de Soja", categoria: "Sementes", preco: 185.50, estoque: 450, unidade: "kg"},
+                    {id: 102, nome: "Fertilizante NPK", categoria: "Fertilizantes", preco: 89.90, estoque: 120, unidade: "saco"}
+                ];
+                localStorage.setItem('agro_produtos', JSON.stringify(produtos));
+            }
+
+            carregarHistoricoVendas();
+            showSection('home');
+        };
+    </script>
+</body>
+</html>
