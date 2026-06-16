@@ -1,23 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisSenai - Lançar Venda</title>
+    <title>SisAgro - Lançar Venda</title>
 </head>
 <body>
     <nav>
         <a href="index.html">Home</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="produtos.html">Produtos</a>
+        <a href="clientes.html">Produtores</a>
+        <a href="produtos.html">Insumos</a>
         <a href="vendas.html">Vendas</a>
         <a href="consulta_vendas.html">Consulta Vendas</a>
     </nav>
 
     <header class="banner">
-        <h1>Controle de Vendas</h1>
-        <p>Cadastre novas vendas no sistema</p>
+        <h1>Controle de Vendas Agropecuárias</h1>
+        <p>Registre vendas de insumos, rações e produtos para o campo</p>
     </header>
 
     <div class="container">
@@ -28,16 +27,16 @@
         </div>
 
         <div class="card">
-            <h2>Nova Venda / Orçamento</h2>
+            <h2>Nova Venda / Orçamento para o Produtor</h2>
 
-            <label>Cliente:</label>
+            <label>Produtor / Cliente:</label>
             <select id="selCliente">
-                <option value="">Selecione o Cliente...</option>
+                <option value="">Selecione o Produtor...</option>
             </select>
 
-            <label>Produto:</label>
+            <label>Insumo / Produto:</label>
             <select id="selProduto">
-                <option value="">Selecione o Produto...</option>
+                <option value="">Selecione o Insumo...</option>
             </select>
 
             <label>Quantidade:</label>
@@ -48,7 +47,7 @@
             <table id="tabelaItens">
                 <thead>
                     <tr>
-                        <th>Produto</th>
+                        <th>Insumo / Produto</th>
                         <th>Qtd</th>
                         <th>Preço Unit.</th>
                         <th>Subtotal</th>
@@ -127,7 +126,7 @@
 </body>
 <footer class="rodape">
     <div class="container-rodape">
-        <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
+        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária</p>
         <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
     </div>
 </footer>

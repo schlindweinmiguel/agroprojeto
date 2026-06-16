@@ -1,38 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisSenai - Cadastro de Clientes</title>
+    <title>SisAgro - Cadastro de Produtores</title>
 </head>
 <body>
     <nav>
         <a href="index.html">Home</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="produtos.html">Produtos</a>
+        <a href="clientes.html">Produtores</a>
+        <a href="produtos.html">Insumos</a>
         <a href="vendas.html">Vendas</a>
 		<a href="consulta_vendas.html">Consulta Vendas</a>
 	</nav>
 
     <header class="banner">
-        <h1>Gestão de Clientes</h1>
-        <p>Cadastre e gerencie sua base de contatos</p>
+        <h1>Gestão de Produtores Rurais</h1>
+        <p>Cadastre e gerencie seus clientes do campo</p>
     </header>
 
     <div class="container">
         <div class="card">
-            <h2>Novo Cadastro</h2>
+            <h2>Novo Produtor / Cliente</h2>
             <form action="/salvar-cliente" method="POST">
-                <input type="text" name="nome" placeholder="Nome do Cliente" required>
+                <input type="text" name="nome" placeholder="Nome do Produtor ou Cliente" required>
                 <input type="text" name="cpf" placeholder="CPF/CNPJ" required>
-                <input type="tel" name="telefone" placeholder="Telefone" required>
-                <button type="submit">Salvar Cliente</button>
+                <input type="tel" name="telefone" placeholder="Telefone / WhatsApp" required>
+                <button type="submit">Salvar Produtor</button>
             </form>
         </div>
 
         <div class="card" style="margin-top: 20px;">
-            <h2>Clientes Cadastrados</h2>
+            <h2>Produtores Cadastrados</h2>
             <table>
                 <thead>
                     <tr>
@@ -65,7 +64,7 @@
 </body>
 <footer class="rodape">
     <div class="container-rodape">
-        <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
+        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária</p>
         <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
     </div>
 </footer>

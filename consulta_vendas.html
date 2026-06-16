@@ -1,31 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisSenai - Consulta de Vendas</title>
+    <title>SisAgro - Consulta de Vendas</title>
 </head>
 <body>
     <nav>
         <a href="index.html">Home</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="produtos.html">Produtos</a>
+        <a href="clientes.html">Produtores</a>
+        <a href="produtos.html">Insumos</a>
         <a href="vendas.html">Vendas</a>
         <a href="consulta_vendas.html">Consulta Vendas</a>
     </nav>
 
     <header class="banner">
-        <h1>Consulta de Vendas</h1>
-        <p>Clique em uma venda para detalhar os itens comprados</p>
+        <h1>Consulta de Vendas Agropecuárias</h1>
+        <p>Clique em uma venda para ver os insumos vendidos ao produtor</p>
     </header>
 
     <div class="container">
         <div class="card">
-            <h2>Histórico de Vendas (Mestre)</h2>
+            <h2>Histórico de Vendas para o Campo</h2>
             <table>
                 <thead>
-                    <tr><th>ID</th><th>Data</th><th>Cliente</th><th>Total</th><th>Ação</th></tr>
+                    <tr><th>ID</th><th>Data</th><th>Produtor</th><th>Total</th><th>Ação</th></tr>
                 </thead>
                 <tbody id="lista-vendas-consulta"></tbody>
             </table>
@@ -81,7 +80,7 @@
 </body>
 <footer class="rodape">
     <div class="container-rodape">
-        <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
+        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária</p>
         <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
     </div>
 </footer>

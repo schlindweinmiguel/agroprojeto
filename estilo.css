@@ -1,4 +1,4 @@
-:root { --primary: #005599; --dark: #333; --light: #f4f4f4; }
+:root { --primary: #2E7D32; --dark: #1B5E20; --light: #F1F8E9; }
 body { font-family: sans-serif; margin: 0; background: var(--light); color: var(--dark); }
 nav { background: var(--primary); padding: 1rem; display: flex; justify-content: space-around; }
 nav a { color: white; text-decoration: none; font-weight: bold; }
@@ -11,7 +11,7 @@ table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
 th, td { border-bottom: 1px solid #ddd; padding: 10px; text-align: left; }
 
 .banner {
-    background: linear-gradient(rgba(0,85,153,0.8), rgba(0,85,153,0.8)), url('imagens\senai.png');
+    background: linear-gradient(rgba(46,125,50,0.85), rgba(27,94,32,0.85)), url('imagens\senai.png');
     background-size: cover;
     color: white;
     padding: 30px 20px;
@@ -24,13 +24,13 @@ th, td { border-bottom: 1px solid #ddd; padding: 10px; text-align: left; }
         font-size: 2.5rem;
     }
 
-/* Estilo do Rodap� */
+/* Estilo do Rodapé */
 .rodape {
-    background-color: #333;
+    background-color: #1B5E20;
     color: white;
     text-align: center;
     padding: 20px 0;
-    margin-top: 50px; /* Garante dist�ncia do conte�do superior */
+    margin-top: 50px;
     width: 100%;
 }
 
@@ -40,7 +40,7 @@ th, td { border-bottom: 1px solid #ddd; padding: 10px; text-align: left; }
     opacity: 0.8;
 }
 
-/* Ajuste para o corpo da p�gina n�o "cortar" o rodap� em telas pequenas */
+/* Ajuste para o corpo da página não "cortar" o rodapé em telas pequenas */
 body {
     display: flex;
     flex-direction: column;
@@ -49,5 +49,5 @@ body {
 }
 
 .container {
-    flex: 1; /* Faz o conte�do principal esticar e empurrar o rodap� para baixo */
+    flex: 1; /* Faz o conteúdo principal esticar e empurrar o rodapé para baixo */
 }

@@ -1,38 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisSenai - Cadastro de Produtos</title>
+    <title>SisAgro - Insumos e Produtos Agrícolas</title>
 </head>
 <body>
     <nav>
         <a href="index.html">Home</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="produtos.html">Produtos</a>
+        <a href="clientes.html">Produtores</a>
+        <a href="produtos.html">Insumos</a>
         <a href="vendas.html">Vendas</a>
 		<a href="consulta_vendas.html">Consulta Vendas</a>
 	</nav>
 
     <header class="banner">
-        <h1>Gestão de Produtos</h1>
-        <p>Cadastre e gerencie seus produtos do estoque</p>
+        <h1>Gestão de Insumos Agrícolas</h1>
+        <p>Cadastre sementes, rações, fertilizantes, defensivos e equipamentos</p>
     </header>
 
     <div class="container">
         <div class="card">
-            <h2>Novo Produto</h2>
+            <h2>Novo Insumo Agrícola</h2>
             <form action="/salvar-produto" method="POST">
-                <input type="text" name="descricao" placeholder="Descrição do Produto" required>
-                <input type="number" step="0.01" name="preco" placeholder="Preço de Venda" required>
+                <input type="text" name="descricao" placeholder="Ex: Semente de Milho, Ração Bovina, Fertilizante NPK" required>
+                <input type="number" step="0.01" name="preco" placeholder="Preço de Venda (R$)" required>
                 <input type="number" name="estoque" placeholder="Quantidade em Estoque" required>
                 <button type="submit">Salvar no Estoque</button>
             </form>
         </div>
 
         <div class="card" style="margin-top: 20px;">
-            <h2>Produtos no Estoque</h2>
+            <h2>Insumos no Estoque</h2>
             <table>
                 <thead>
                     <tr>
@@ -65,7 +64,7 @@
 </body>
 <footer class="rodape">
     <div class="container-rodape">
-        <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
+        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária</p>
         <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
     </div>
 </footer>
