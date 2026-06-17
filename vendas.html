@@ -16,6 +16,7 @@
             <a href="clientes.html">Clientes</a>
             <a href="produtos.html">Produtos</a>
             <a href="vendas.html">Vendas</a>
+            <a href="servicos.html">Serviços</a>
             <a href="consulta_vendas.html">Consulta Vendas</a>
         </div>
     </nav>
@@ -85,13 +86,11 @@
         window.listaProdutos = [];
 
         window.onload = () => {
-            // Carregar clientes
             fetch('/listar-clientes').then(res => res.json()).then(data => {
                 const sel = document.getElementById('selCliente');
                 data.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.nome}</option>`);
             });
 
-            // Carregar produtos
             fetch('/listar-produtos').then(res => res.json()).then(data => {
                 window.listaProdutos = data;
                 const sel = document.getElementById('selProduto');
