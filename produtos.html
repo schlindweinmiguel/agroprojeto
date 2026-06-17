@@ -16,41 +16,77 @@
             <a href="clientes.html">Clientes</a>
             <a href="produtos.html">Produtos</a>
             <a href="vendas.html">Vendas</a>
+            <a href="servicos.html">Serviços</a>
             <a href="consulta_vendas.html">Consulta Vendas</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="card">
-            <h1 style="margin-top:0; color:#1B5E20;">Gestão de Produtos</h1>
-            <p style="color:#64748B;">Cadastre e gerencie seus produtos do estoque agropecuário (rações, sementes, fertilizantes, etc).</p>
+            <h1 style="margin-top:0; color:#1B5E20;">Gestão de Insumos Agrícolas</h1>
+            <p style="color:#64748B;">Cadastre produtos com categoria, unidade de medida e estoque mínimo.</p>
         </div>
 
         <div class="modern-grid">
             <div class="card">
-                <h2>Novo Produto / Insumo</h2>
+                <h2>Novo Insumo / Produto</h2>
                 <form action="/salvar-produto" method="POST">
                     <label>Descrição do Produto</label>
                     <input type="text" name="descricao" placeholder="Ex: Ração para Bovinos 50kg" required>
 
-                    <label>Preço de Venda (R$)</label>
-                    <input type="number" step="0.01" name="preco" placeholder="158.90" required>
+                    <div class="modern-grid">
+                        <div>
+                            <label>Preço de Venda (R$)</label>
+                            <input type="number" step="0.01" name="preco" placeholder="158.90" required>
+                        </div>
+                        <div>
+                            <label>Estoque Atual</label>
+                            <input type="number" name="estoque" placeholder="320" required>
+                        </div>
+                    </div>
 
-                    <label>Quantidade em Estoque</label>
-                    <input type="number" name="estoque" placeholder="320" required>
+                    <div class="modern-grid">
+                        <div>
+                            <label>Categoria</label>
+                            <select name="categoria">
+                                <option value="Racao">Ração / Alimentação</option>
+                                <option value="Semente">Sementes</option>
+                                <option value="Fertilizante">Fertilizantes</option>
+                                <option value="Defensivo">Defensivos</option>
+                                <option value="Equipamento">Equipamentos</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Unidade</label>
+                            <input type="text" name="unidade" placeholder="kg, L, saco, un">
+                        </div>
+                    </div>
+
+                    <div class="modern-grid">
+                        <div>
+                            <label>Estoque Mínimo</label>
+                            <input type="number" name="estoque_minimo" placeholder="50">
+                        </div>
+                        <div>
+                            <label>Fornecedor</label>
+                            <input type="text" name="fornecedor" placeholder="Nome do fornecedor">
+                        </div>
+                    </div>
 
                     <button type="submit">Salvar no Estoque</button>
                 </form>
             </div>
 
             <div class="card">
-                <h2>Produtos no Estoque</h2>
+                <h2>Insumos no Estoque</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Descrição</th>
-                            <th>Preço (R$)</th>
+                            <th>Preço</th>
                             <th>Estoque</th>
+                            <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody id="lista-produtos"></tbody>
@@ -64,19 +100,60 @@
     </footer>
 
     <script>
-        fetch('/listar-produtos')
-            .then(res => res.json())
-            .then(produtos => {
-                const corpo = document.getElementById('lista-produtos');
-                produtos.forEach(p => {
-                    corpo.innerHTML += `
-                        <tr>
-                            <td><strong>${p.descricao}</strong></td>
-                            <td>R$ ${p.preco.toFixed(2)}</td>
-                            <td>${p.estoque}</td>
-                        </tr>`;
+        function carregarProdutos() {
+            fetch('/listar-produtos')
+                .then(res => res.json())
+                .then(produtos => {
+                    const corpo = document.getElementById('lista-produtos');
+                    corpo.innerHTML = '';
+                    produtos.forEach(p => {
+                        corpo.innerHTML += `
+                            <tr>
+                                <td><strong>${p.descricao}</strong><br><small>${p.categoria || ''} - ${p.unidade || ''}</small></td>
+                                <td>R$ ${p.preco ? p.preco.toFixed(2) : '0,00'}</td>
+                                <td>${p.estoque || 0}</td>
+                                <td>
+                                    <button onclick="editarProduto(${p.id})" style="padding:4px 10px; font-size:0.85rem; background:#3b82f6;">Editar</button>
+                                    <button onclick="excluirProduto(${p.id})" style="padding:4px 10px; font-size:0.85rem; background:#ef4444;">Excluir</button>
+                                </td>
+                            </tr>`;
+                    });
                 });
+        }
+
+        function editarProduto(id) {
+            const descricao = prompt("Nova descrição do produto:");
+            if (!descricao) return;
+
+            fetch(`/atualizar-produto/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    descricao: descricao,
+                    preco: parseFloat(prompt("Novo preço:")) || 0,
+                    estoque: parseInt(prompt("Novo estoque:")) || 0,
+                    categoria: prompt("Categoria:") || "",
+                    unidade: prompt("Unidade:") || "",
+                    estoque_minimo: parseInt(prompt("Estoque mínimo:")) || 0,
+                    fornecedor: prompt("Fornecedor:") || ""
+                })
+            }).then(() => {
+                alert("Produto atualizado!");
+                carregarProdutos();
             });
+        }
+
+        function excluirProduto(id) {
+            if (!confirm("Tem certeza que deseja excluir este produto?")) return;
+
+            fetch(`/excluir-produto/${id}`, { method: 'DELETE' })
+                .then(() => {
+                    alert("Produto excluído!");
+                    carregarProdutos();
+                });
+        }
+
+        window.onload = carregarProdutos;
     </script>
 </body>
 </html>

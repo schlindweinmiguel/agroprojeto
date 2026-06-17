@@ -16,43 +16,62 @@
             <a href="clientes.html">Clientes</a>
             <a href="produtos.html">Produtos</a>
             <a href="vendas.html">Vendas</a>
+            <a href="servicos.html">Serviços</a>
             <a href="consulta_vendas.html">Consulta Vendas</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="card">
-            <h1 style="margin-top:0; color:#1B5E20;">Gestão de Clientes</h1>
-            <p style="color:#64748B;">Cadastre e gerencie sua base de contatos de produtores rurais e clientes da agropecuária.</p>
+            <h1 style="margin-top:0; color:#1B5E20;">Gestão de Produtores Rurais</h1>
+            <p style="color:#64748B;">Cadastre produtores com mais informações (endereço, e-mail, observações).</p>
         </div>
 
         <div class="modern-grid">
             <!-- Formulário -->
             <div class="card">
-                <h2>Novo Cadastro</h2>
+                <h2>Novo Produtor / Cliente</h2>
                 <form action="/salvar-cliente" method="POST">
                     <label>Nome / Nome da Fazenda</label>
                     <input type="text" name="nome" placeholder="Ex: Fazenda São João Ltda" required>
 
-                    <label>CPF / CNPJ</label>
-                    <input type="text" name="cpf" placeholder="00.000.000/0001-00" required>
+                    <div class="modern-grid">
+                        <div>
+                            <label>CPF / CNPJ</label>
+                            <input type="text" name="cpf" placeholder="00.000.000/0001-00" required>
+                        </div>
+                        <div>
+                            <label>Telefone / WhatsApp</label>
+                            <input type="tel" name="telefone" placeholder="(45) 99999-0000" required>
+                        </div>
+                    </div>
 
-                    <label>Telefone / WhatsApp</label>
-                    <input type="tel" name="telefone" placeholder="(45) 99999-0000" required>
+                    <label>E-mail</label>
+                    <input type="email" name="email" placeholder="contato@fazenda.com">
 
-                    <button type="submit">Salvar Cliente</button>
+                    <label>Endereço</label>
+                    <input type="text" name="endereco" placeholder="Rodovia BR-xxx, km 12">
+
+                    <label>Cidade</label>
+                    <input type="text" name="cidade" placeholder="Capanema - PR">
+
+                    <label>Observações</label>
+                    <input type="text" name="observacoes" placeholder="Ex: Cliente desde 2023, prefere pagamento em 30 dias">
+
+                    <button type="submit">Salvar Produtor</button>
                 </form>
             </div>
 
             <!-- Lista -->
             <div class="card">
-                <h2>Clientes Cadastrados</h2>
+                <h2>Produtores Cadastrados</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>CPF/CNPJ</th>
                             <th>Telefone</th>
+                            <th>Cidade</th>
+                            <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody id="lista-clientes"></tbody>
@@ -66,19 +85,60 @@
     </footer>
 
     <script>
-        fetch('/listar-clientes')
-            .then(res => res.json())
-            .then(clientes => {
-                const corpo = document.getElementById('lista-clientes');
-                clientes.forEach(c => {
-                    corpo.innerHTML += `
-                        <tr>
-                            <td><strong>${c.nome}</strong></td>
-                            <td>${c.cpf}</td>
-                            <td>${c.telefone}</td>
-                        </tr>`;
+        function carregarClientes() {
+            fetch('/listar-clientes')
+                .then(res => res.json())
+                .then(clientes => {
+                    const corpo = document.getElementById('lista-clientes');
+                    corpo.innerHTML = '';
+                    clientes.forEach(c => {
+                        corpo.innerHTML += `
+                            <tr>
+                                <td><strong>${c.nome}</strong><br><small>${c.cpf || ''}</small></td>
+                                <td>${c.telefone || ''}</td>
+                                <td>${c.cidade || '-'}</td>
+                                <td>
+                                    <button onclick="editarCliente(${c.id})" style="padding:4px 10px; font-size:0.85rem; background:#3b82f6;">Editar</button>
+                                    <button onclick="excluirCliente(${c.id})" style="padding:4px 10px; font-size:0.85rem; background:#ef4444;">Excluir</button>
+                                </td>
+                            </tr>`;
+                    });
                 });
+        }
+
+        function editarCliente(id) {
+            const nome = prompt("Novo nome do produtor:");
+            if (!nome) return;
+
+            fetch(`/atualizar-cliente/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nome: nome,
+                    cpf: prompt("Novo CPF/CNPJ:") || "",
+                    telefone: prompt("Novo Telefone:") || "",
+                    email: prompt("Novo E-mail:") || "",
+                    endereco: prompt("Novo Endereço:") || "",
+                    cidade: prompt("Nova Cidade:") || "",
+                    observacoes: prompt("Observações:") || ""
+                })
+            }).then(() => {
+                alert("Cliente atualizado com sucesso!");
+                carregarClientes();
             });
+        }
+
+        function excluirCliente(id) {
+            if (!confirm("Tem certeza que deseja excluir este produtor?")) return;
+
+            fetch(`/excluir-cliente/${id}`, { method: 'DELETE' })
+                .then(() => {
+                    alert("Produtor excluído!");
+                    carregarClientes();
+                });
+        }
+
+        window.onload = carregarClientes;
     </script>
 </body>
 </html>

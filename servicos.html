@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>AgroVerde • Serviços</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <span class="logo">🌿</span>
+            <span>AgroVerde</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="vendas.html">Vendas</a>
+            <a href="servicos.html">Serviços</a>
+            <a href="consulta_vendas.html">Consulta Vendas</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h1 style="margin-top:0; color:#1B5E20;">Gestão de Serviços Agropecuários</h1>
+            <p style="color:#64748B;">Cadastre serviços prestados por técnicos veterinários e profissionais do campo.</p>
+        </div>
+
+        <div class="modern-grid">
+            <!-- Formulário de Cadastro -->
+            <div class="card">
+                <h2>Novo Serviço</h2>
+                <form action="/salvar-servico" method="POST">
+                    <label>Nome do Serviço</label>
+                    <input type="text" name="nome" placeholder="Ex: Vacinação de Bovinos" required>
+
+                    <label>Descrição</label>
+                    <input type="text" name="descricao" placeholder="Descreva o serviço">
+
+                    <div class="modern-grid">
+                        <div>
+                            <label>Preço (R$)</label>
+                            <input type="number" step="0.01" name="preco" placeholder="150.00" required>
+                        </div>
+                        <div>
+                            <label>Categoria</label>
+                            <select name="categoria" required>
+                                <option value="Veterinario">Veterinário</option>
+                                <option value="Agronomico">Agronômico / Técnico</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label>Duração Estimada</label>
+                    <input type="text" name="duracao_estimada" placeholder="Ex: 2 horas, 1 dia">
+
+                    <label>Profissional Responsável</label>
+                    <input type="text" name="profissional" placeholder="Ex: Dr. João Silva - Vet">
+
+                    <button type="submit">Cadastrar Serviço</button>
+                </form>
+            </div>
+
+            <!-- Lista de Serviços -->
+            <div class="card">
+                <h2>Serviços Cadastrados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Serviço</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-servicos"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="rodape">
+        <p>© 2026 AgroVerde - Sistema de Gestão para Agropecuária</p>
+    </footer>
+
+    <script>
+        function carregarServicos() {
+            fetch('/listar-servicos')
+                .then(res => res.json())
+                .then(servicos => {
+                    const corpo = document.getElementById('lista-servicos');
+                    corpo.innerHTML = '';
+                    servicos.forEach(s => {
+                        corpo.innerHTML += `
+                            <tr>
+                                <td><strong>${s.nome}</strong><br><small>${s.descricao || ''}</small></td>
+                                <td><span style="background:#E8F5E9; padding:2px 8px; border-radius:4px;">${s.categoria}</span></td>
+                                <td>R$ ${s.preco ? s.preco.toFixed(2) : '0,00'}</td>
+                                <td>
+                                    <button onclick="editarServico(${s.id})" style="padding:4px 10px; font-size:0.85rem; background:#3b82f6;">Editar</button>
+                                    <button onclick="excluirServico(${s.id})" style="padding:4px 10px; font-size:0.85rem; background:#ef4444;">Excluir</button>
+                                </td>
+                            </tr>`;
+                    });
+                });
+        }
+
+        function editarServico(id) {
+            const nome = prompt("Novo nome do serviço:");
+            if (!nome) return;
+
+            fetch(`/atualizar-servico/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    nome: nome,
+                    descricao: prompt("Nova descrição:") || "",
+                    preco: parseFloat(prompt("Novo preço:")) || 0,
+                    categoria: prompt("Categoria (Veterinario ou Agronomico):") || "Veterinario",
+                    duracao_estimada: prompt("Duração:") || "",
+                    profissional: prompt("Profissional:") || ""
+                })
+            }).then(() => {
+                alert("Serviço atualizado!");
+                carregarServicos();
+            });
+        }
+
+        function excluirServico(id) {
+            if (!confirm("Tem certeza que deseja excluir este serviço?")) return;
+
+            fetch(`/excluir-servico/${id}`, { method: 'DELETE' })
+                .then(() => {
+                    alert("Serviço excluído!");
+                    carregarServicos();
+                });
+        }
+
+        window.onload = carregarServicos;
+    </script>
+</body>
+</html>
