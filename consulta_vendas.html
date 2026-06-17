@@ -3,43 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisAgro - Consulta de Vendas</title>
+    <title>AgroVerde • Consulta de Vendas</title>
 </head>
 <body>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="clientes.html">Produtores</a>
-        <a href="produtos.html">Insumos</a>
-        <a href="vendas.html">Vendas</a>
-        <a href="consulta_vendas.html">Consulta Vendas</a>
+        <a href="index.html" class="nav-brand">
+            <span class="logo">🌿</span>
+            <span>AgroVerde</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="vendas.html">Vendas</a>
+            <a href="consulta_vendas.html">Consulta Vendas</a>
+        </div>
     </nav>
-
-    <header class="banner">
-        <h1>Consulta de Vendas Agropecuárias</h1>
-        <p>Clique em uma venda para ver os insumos vendidos ao produtor</p>
-    </header>
 
     <div class="container">
         <div class="card">
-            <h2>Histórico de Vendas para o Campo</h2>
+            <h1 style="margin-top:0; color:#1B5E20;">Consulta de Vendas</h1>
+            <p style="color:#64748B;">Clique em uma venda para ver os detalhes dos itens vendidos.</p>
+        </div>
+
+        <div class="card">
+            <h2>Histórico de Vendas</h2>
             <table>
                 <thead>
-                    <tr><th>ID</th><th>Data</th><th>Produtor</th><th>Total</th><th>Ação</th></tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Produtor</th>
+                        <th>Total</th>
+                        <th>Ação</th>
+                    </tr>
                 </thead>
                 <tbody id="lista-vendas-consulta"></tbody>
             </table>
         </div>
 
-        <div id="card-detalhes" class="card" style="margin-top: 20px; display: none; border-top: 5px solid #005599;">
-            <h2>Detalhes da Venda #<span id="num-venda"></span> (Itens)</h2>
+        <div id="card-detalhes" class="card" style="display:none; border-top: 5px solid #2E7D32;">
+            <h2>Detalhes da Venda #<span id="num-venda"></span></h2>
             <table>
                 <thead>
-                    <tr><th>Produto</th><th>Qtd</th><th>Preço Unit.</th><th>Subtotal</th></tr>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Qtd</th>
+                        <th>Preço Unit.</th>
+                        <th>Subtotal</th>
+                    </tr>
                 </thead>
                 <tbody id="lista-itens-detalhe"></tbody>
             </table>
         </div>
     </div>
+
+    <footer class="rodape">
+        <p>© 2026 AgroVerde - Sistema de Gestão para Agropecuária</p>
+    </footer>
 
     <script>
         window.onload = () => {
@@ -47,13 +68,13 @@
                 const corpo = document.getElementById('lista-vendas-consulta');
                 vendas.forEach(v => {
                     corpo.innerHTML += `
-                            <tr>
-                                <td>${v.id}</td>
-                                <td>${v.data}</td>
-                                <td>${v.nome_cliente}</td>
-                                <td>R$ ${v.total.toFixed(2)}</td>
-                                <td><button onclick="verDetalhes(${v.id})" style="padding:5px">Ver Itens</button></td>
-                            </tr>`;
+                        <tr>
+                            <td><strong>#${v.id}</strong></td>
+                            <td>${v.data}</td>
+                            <td>${v.nome_cliente}</td>
+                            <td><strong>R$ ${v.total.toFixed(2)}</strong></td>
+                            <td><button onclick="verDetalhes(${v.id})" style="padding:6px 14px; font-size:0.9rem;">Ver Itens</button></td>
+                        </tr>`;
                 });
             });
         };
@@ -66,22 +87,16 @@
                 corpo.innerHTML = "";
                 itens.forEach(item => {
                     corpo.innerHTML += `
-                            <tr>
-                                <td>${item.descricao}</td>
-                                <td>${item.quantidade}</td>
-                                <td>R$ ${item.preco_unitario.toFixed(2)}</td>
-                                <td>R$ ${(item.quantidade * item.preco_unitario).toFixed(2)}</td>
-                            </tr>`;
+                        <tr>
+                            <td>${item.descricao}</td>
+                            <td>${item.quantidade}</td>
+                            <td>R$ ${item.preco_unitario.toFixed(2)}</td>
+                            <td>R$ ${(item.quantidade * item.preco_unitario).toFixed(2)}</td>
+                        </tr>`;
                 });
                 window.scrollTo(0, document.body.scrollHeight);
             });
         }
     </script>
 </body>
-<footer class="rodape">
-    <div class="container-rodape">
-        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária</p>
-        <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
-    </div>
-</footer>
 </html>

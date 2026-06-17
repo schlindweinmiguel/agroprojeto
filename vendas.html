@@ -3,63 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisAgro - Lançar Venda</title>
+    <title>AgroVerde • Vendas</title>
 </head>
 <body>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="clientes.html">Produtores</a>
-        <a href="produtos.html">Insumos</a>
-        <a href="vendas.html">Vendas</a>
-        <a href="consulta_vendas.html">Consulta Vendas</a>
+        <a href="index.html" class="nav-brand">
+            <span class="logo">🌿</span>
+            <span>AgroVerde</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="vendas.html">Vendas</a>
+            <a href="consulta_vendas.html">Consulta Vendas</a>
+        </div>
     </nav>
 
-    <header class="banner">
-        <h1>Controle de Vendas Agropecuárias</h1>
-        <p>Registre vendas de insumos, rações e produtos para o campo</p>
-    </header>
-
     <div class="container">
-        <div style="margin-bottom: 20px;">
-            <button onclick="window.location.href='consulta_vendas.html'" style="background: #555; width: auto; padding: 10px 20px;">
-                🔍 Ver Histórico e Detalhes de Vendas
-            </button>
+        <div class="card">
+            <h1 style="margin-top:0; color:#1B5E20;">Controle de Vendas</h1>
+            <p style="color:#64748B;">Registre vendas de insumos e produtos para produtores rurais com baixa automática de estoque.</p>
+            
+            <a href="consulta_vendas.html" style="color:#2E7D32; font-weight:600;">→ Ver Histórico Completo de Vendas</a>
         </div>
 
         <div class="card">
-            <h2>Nova Venda / Orçamento para o Produtor</h2>
+            <h2>Nova Venda / Orçamento</h2>
 
-            <label>Produtor / Cliente:</label>
-            <select id="selCliente">
-                <option value="">Selecione o Produtor...</option>
-            </select>
+            <div class="modern-grid">
+                <div>
+                    <label>Produtor / Cliente</label>
+                    <select id="selCliente" style="margin-bottom:1rem;">
+                        <option value="">Selecione o Produtor...</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Insumo / Produto</label>
+                    <select id="selProduto" style="margin-bottom:1rem;">
+                        <option value="">Selecione o Produto...</option>
+                    </select>
+                </div>
+            </div>
 
-            <label>Insumo / Produto:</label>
-            <select id="selProduto">
-                <option value="">Selecione o Insumo...</option>
-            </select>
+            <div style="display:flex; gap:1rem; align-items:end;">
+                <div style="flex:1;">
+                    <label>Quantidade</label>
+                    <input type="number" id="inpQtd" value="1" min="1">
+                </div>
+                <button onclick="adicionarItem()" style="height:48px; padding:0 2rem;">Adicionar Item</button>
+            </div>
 
-            <label>Quantidade:</label>
-            <input type="number" id="inpQtd" value="1" min="1">
-
-            <button onclick="adicionarItem()">Adicionar Item</button>
-
+            <h3 style="margin-top:2rem; color:#1B5E20;">Itens da Venda Atual</h3>
             <table id="tabelaItens">
                 <thead>
                     <tr>
-                        <th>Insumo / Produto</th>
+                        <th>Produto</th>
                         <th>Qtd</th>
                         <th>Preço Unit.</th>
                         <th>Subtotal</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
 
-            <h3 id="txtTotal">Total: R$ 0,00</h3>
-            <button onclick="finalizarVenda()" style="background: green;">Finalizar Venda</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
+                <h3 id="txtTotal" style="margin:0; color:#1B5E20;">Total: R$ 0,00</h3>
+                <button onclick="finalizarVenda()" style="background:#2E7D32; padding:12px 40px; font-size:1.05rem;">Finalizar Venda</button>
+            </div>
         </div>
     </div>
+
+    <footer class="rodape">
+        <p>© 2026 AgroVerde - Sistema de Gestão para Agropecuária</p>
+    </footer>
 
     <script>
         let carrinho = [];
@@ -67,15 +85,19 @@
         window.listaProdutos = [];
 
         window.onload = () => {
+            // Carregar clientes
             fetch('/listar-clientes').then(res => res.json()).then(data => {
-                const selC = document.getElementById('selCliente');
-                data.forEach(c => selC.innerHTML += `<option value="${c.id}">${c.nome}</option>`);
+                const sel = document.getElementById('selCliente');
+                data.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.nome}</option>`);
             });
 
+            // Carregar produtos
             fetch('/listar-produtos').then(res => res.json()).then(data => {
                 window.listaProdutos = data;
-                const selP = document.getElementById('selProduto');
-                data.forEach(p => selP.innerHTML += `<option value="${p.id}">${p.descricao} - R$ ${p.preco.toFixed(2)}</option>`);
+                const sel = document.getElementById('selProduto');
+                data.forEach(p => {
+                    sel.innerHTML += `<option value="${p.id}">${p.descricao} - R$ ${p.preco.toFixed(2)} (Estoque: ${p.estoque})</option>`;
+                });
             });
         };
 
@@ -84,28 +106,55 @@
             const qtd = parseInt(document.getElementById('inpQtd').value);
             const produto = window.listaProdutos.find(p => p.id === pId);
 
-            if (produto) {
-                const subtotal = produto.preco * qtd;
-                carrinho.push({ id: produto.id, desc: produto.descricao, preco: produto.preco, qtd: qtd });
-                totalGeral += subtotal;
-                atualizarGrade();
-            } else {
+            if (!produto) {
                 alert("Selecione um produto!");
+                return;
             }
+
+            if (qtd > produto.estoque) {
+                alert(`Estoque insuficiente! Apenas ${produto.estoque} unidades disponíveis.`);
+                return;
+            }
+
+            const subtotal = produto.preco * qtd;
+            carrinho.push({ 
+                id: produto.id, 
+                desc: produto.descricao, 
+                preco: produto.preco, 
+                qtd: qtd 
+            });
+            totalGeral += subtotal;
+            atualizarGrade();
         }
 
         function atualizarGrade() {
             const corpo = document.querySelector('#tabelaItens tbody');
             corpo.innerHTML = "";
-            carrinho.forEach(item => {
-                corpo.innerHTML += `<tr><td>${item.desc}</td><td>${item.qtd}</td><td>R$ ${item.preco.toFixed(2)}</td><td>R$ ${(item.qtd * item.preco).toFixed(2)}</td></tr>`;
+            carrinho.forEach((item, index) => {
+                corpo.innerHTML += `
+                    <tr>
+                        <td>${item.desc}</td>
+                        <td>${item.qtd}</td>
+                        <td>R$ ${item.preco.toFixed(2)}</td>
+                        <td>R$ ${(item.qtd * item.preco).toFixed(2)}</td>
+                        <td><button onclick="removerItem(${index})" style="background:#ef4444; padding:4px 10px; font-size:0.85rem;">Remover</button></td>
+                    </tr>`;
             });
             document.getElementById('txtTotal').innerText = `Total: R$ ${totalGeral.toFixed(2)}`;
         }
 
+        function removerItem(index) {
+            totalGeral -= carrinho[index].qtd * carrinho[index].preco;
+            carrinho.splice(index, 1);
+            atualizarGrade();
+        }
+
         function finalizarVenda() {
             const cId = document.getElementById('selCliente').value;
-            if (!cId || carrinho.length === 0) return alert("Selecione cliente e itens!");
+            if (!cId || carrinho.length === 0) {
+                alert("Selecione um produtor e adicione itens!");
+                return;
+            }
 
             const dadosVenda = { cliente_id: cId, total: totalGeral, itens: carrinho };
 
@@ -114,20 +163,14 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dadosVenda)
             })
-                .then(res => res.json())
-                .then(resposta => {
-                    if (resposta.success) {
-                        alert('Venda registrada com sucesso!');
-                        window.location.href = 'consulta_vendas.html'; // Vai direto para a consulta após vender
-                    }
-                });
+            .then(res => res.json())
+            .then(resposta => {
+                if (resposta.success) {
+                    alert('Venda registrada com sucesso! Estoque atualizado.');
+                    window.location.href = 'consulta_vendas.html';
+                }
+            });
         }
     </script>
 </body>
-<footer class="rodape">
-    <div class="container-rodape">
-        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária</p>
-        <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
-    </div>
-</footer>
 </html>

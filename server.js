@@ -5,15 +5,14 @@ const app = express();
 
 // Configurações do Servidor
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); // Necessário para o carrinho de compras (JSON)
-app.use(express.static('.')); // Serve seus arquivos HTML, CSS e imagens
+app.use(express.json());
+app.use(express.static('.'));
 
 // Conexão com o Banco de Dados
 const db = new sqlite3.Database('./sisagro.db');
 
-// Inicialização das Tabelas (Cria apenas se não existirem)
+// Inicialização das Tabelas
 db.serialize(() => {
-    // Tabela de Clientes
     db.run(`CREATE TABLE IF NOT EXISTS clientes (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         nome TEXT, 
@@ -21,7 +20,6 @@ db.serialize(() => {
         telefone TEXT
     )`);
 
-    // Tabela de Produtos (Estoque)
     db.run(`CREATE TABLE IF NOT EXISTS produtos (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         descricao TEXT, 
@@ -29,7 +27,6 @@ db.serialize(() => {
         estoque INTEGER
     )`);
 
-    // Tabela Mestre de Vendas
     db.run(`CREATE TABLE IF NOT EXISTS vendas (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         cliente_id INTEGER, 
@@ -38,7 +35,6 @@ db.serialize(() => {
         FOREIGN KEY (cliente_id) REFERENCES clientes (id)
     )`);
 
-    // Tabela Detalhe de Itens da Venda
     db.run(`CREATE TABLE IF NOT EXISTS itens_venda (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         venda_id INTEGER, 
@@ -50,7 +46,7 @@ db.serialize(() => {
     )`);
 });
 
-// --- ROTAS DE CLIENTES ---
+// ROTAS DE CLIENTES
 app.post('/salvar-cliente', (req, res) => {
     const { nome, cpf, telefone } = req.body;
     db.run(`INSERT INTO clientes (nome, cpf, telefone) VALUES (?, ?, ?)`, [nome, cpf, telefone], (err) => {
@@ -66,7 +62,7 @@ app.get('/listar-clientes', (req, res) => {
     });
 });
 
-// --- ROTAS DE PRODUTOS (ESTOQUE) ---
+// ROTAS DE PRODUTOS
 app.post('/salvar-produto', (req, res) => {
     const { descricao, preco, estoque } = req.body;
     db.run(`INSERT INTO produtos (descricao, preco, estoque) VALUES (?, ?, ?)`, [descricao, preco, estoque], (err) => {
@@ -82,9 +78,7 @@ app.get('/listar-produtos', (req, res) => {
     });
 });
 
-// --- ROTAS DE VENDAS ---
-
-// Finalizar Venda (Grava Mestre e Detalhes)
+// ROTAS DE VENDAS
 app.post('/finalizar-venda', (req, res) => {
     const { cliente_id, total, itens } = req.body;
     const data = new Date().toLocaleString('pt-BR');
@@ -95,37 +89,21 @@ app.post('/finalizar-venda', (req, res) => {
         const vendaId = this.lastID;
         const stmt = db.prepare(`INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario) VALUES (?, ?, ?, ?)`);
 
-        //itens.forEach(item => {
-        //    stmt.run(vendaId, item.id, item.qtd, item.preco);
-        //});
-	itens.forEach(item => {
+        itens.forEach(item => {
+            stmt.run(vendaId, item.id, item.qtd, item.preco);
 
-    		// Grava item da venda
-    		stmt.run(
-        	vendaId,
-        	item.id,
-        	item.qtd,
-        	item.preco
-    		);
-
-    // Baixa estoque
-    	db.run(
-        	`
-        	UPDATE produtos
-        	SET estoque = estoque - ?
-        	WHERE id = ?
-        	`,
-        	[item.qtd, item.id]
-    	 	);
-	});
-
+            // Baixa estoque
+            db.run(
+                `UPDATE produtos SET estoque = estoque - ? WHERE id = ?`,
+                [item.qtd, item.id]
+            );
+        });
 
         stmt.finalize();
         res.json({ success: true });
-    	});
-	});
+    });
+});
 
-// Listar todas as Vendas (Mestre)
 app.get('/listar-vendas', (req, res) => {
     const sql = `
         SELECT v.id, v.data, v.total, c.nome as nome_cliente 
@@ -138,7 +116,6 @@ app.get('/listar-vendas', (req, res) => {
     });
 });
 
-// Listar itens de uma venda específica (Detalhe)
 app.get('/detalhes-venda/:id', (req, res) => {
     const { id } = req.params;
     const sql = `
@@ -157,6 +134,6 @@ app.get('/detalhes-venda/:id', (req, res) => {
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`=========================================`);
-    console.log(`SISAGRO RODANDO EM: http://localhost:${PORT}`);
+    console.log(`AGROVERDE RODANDO EM: http://localhost:${PORT}`);
     console.log(`=========================================`);
 });

@@ -3,58 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisAgro - Cadastro de Produtores</title>
+    <title>AgroVerde • Clientes</title>
 </head>
 <body>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="clientes.html">Produtores</a>
-        <a href="produtos.html">Insumos</a>
-        <a href="vendas.html">Vendas</a>
-		<a href="consulta_vendas.html">Consulta Vendas</a>
-	</nav>
-
-    <header class="banner">
-        <h1>Gestão de Produtores Rurais</h1>
-        <p>Cadastre e gerencie seus clientes do campo</p>
-    </header>
+        <a href="index.html" class="nav-brand">
+            <span class="logo">🌿</span>
+            <span>AgroVerde</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="vendas.html">Vendas</a>
+            <a href="consulta_vendas.html">Consulta Vendas</a>
+        </div>
+    </nav>
 
     <div class="container">
         <div class="card">
-            <h2>Novo Produtor / Cliente</h2>
-            <form action="/salvar-cliente" method="POST">
-                <input type="text" name="nome" placeholder="Nome do Produtor ou Cliente" required>
-                <input type="text" name="cpf" placeholder="CPF/CNPJ" required>
-                <input type="tel" name="telefone" placeholder="Telefone / WhatsApp" required>
-                <button type="submit">Salvar Produtor</button>
-            </form>
+            <h1 style="margin-top:0; color:#1B5E20;">Gestão de Clientes</h1>
+            <p style="color:#64748B;">Cadastre e gerencie sua base de contatos de produtores rurais e clientes da agropecuária.</p>
         </div>
 
-        <div class="card" style="margin-top: 20px;">
-            <h2>Produtores Cadastrados</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>CPF/CNPJ</th>
-                        <th>Telefone</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-clientes">
-                </tbody>
-            </table>
+        <div class="modern-grid">
+            <!-- Formulário -->
+            <div class="card">
+                <h2>Novo Cadastro</h2>
+                <form action="/salvar-cliente" method="POST">
+                    <label>Nome / Nome da Fazenda</label>
+                    <input type="text" name="nome" placeholder="Ex: Fazenda São João Ltda" required>
+
+                    <label>CPF / CNPJ</label>
+                    <input type="text" name="cpf" placeholder="00.000.000/0001-00" required>
+
+                    <label>Telefone / WhatsApp</label>
+                    <input type="tel" name="telefone" placeholder="(45) 99999-0000" required>
+
+                    <button type="submit">Salvar Cliente</button>
+                </form>
+            </div>
+
+            <!-- Lista -->
+            <div class="card">
+                <h2>Clientes Cadastrados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF/CNPJ</th>
+                            <th>Telefone</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-clientes"></tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <footer class="rodape">
+        <p>© 2026 AgroVerde - Sistema de Gestão para Agropecuária</p>
+    </footer>
 
     <script>
         fetch('/listar-clientes')
             .then(res => res.json())
             .then(clientes => {
-                const corpoTabela = document.getElementById('lista-clientes');
+                const corpo = document.getElementById('lista-clientes');
                 clientes.forEach(c => {
-                    corpoTabela.innerHTML += `
+                    corpo.innerHTML += `
                         <tr>
-                            <td>${c.nome}</td>
+                            <td><strong>${c.nome}</strong></td>
                             <td>${c.cpf}</td>
                             <td>${c.telefone}</td>
                         </tr>`;
@@ -62,10 +81,4 @@
             });
     </script>
 </body>
-<footer class="rodape">
-    <div class="container-rodape">
-        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária</p>
-        <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
-    </div>
-</footer>
 </html>

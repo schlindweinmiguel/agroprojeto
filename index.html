@@ -3,70 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>SisAgro - Home</title>
+    <title>AgroVerde - Sistema de Gestão</title>
 </head>
 <body>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="clientes.html">Produtores</a>
-        <a href="produtos.html">Insumos</a>
-        <a href="vendas.html">Vendas</a>
-		<a href="consulta_vendas.html">Consulta Vendas</a>
-	</nav>
-
-    <header class="banner">
-        <h1>Bem-vindo ao SisAgro</h1>
-        <p>Gestão Integrada para Agropecuária</p>
-        <img src="imagens\senai.png" alt="SisAgro - Gestão para o Campo" width="300">
-    </header>
-
+        <a href="index.html" class="nav-brand">
+            <span class="logo">🌿</span>
+            <span>AgroVerde</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="vendas.html">Vendas</a>
+            <a href="consulta_vendas.html">Consulta Vendas</a>
+            <a href="login.html" style="background:#4CAF50; padding:8px 16px; border-radius:8px;">Sair</a>
+        </div>
+    </nav>
 
     <div class="container">
+        <!-- Hero Banner -->
+        <header class="banner">
+            <h1>Bem-vindo ao <span style="color:#A5D6A7">AgroVerde</span></h1>
+            <p>Gestão Integrada para Agropecuária</p>
+        </header>
+
         <div class="card">
-            <h1>SisAgro 1.0 - Gestão para o Campo</h1>
-            <p>Sistema desenvolvido para integrar aprendizado técnico e gestão de agropecuária, conectando Web e Desktop ao banco SQLite. Ideal para fazendas, revendas de insumos e cooperativas.</p>
+            <h2 style="color:#1B5E20; margin-bottom:0.5rem;">AgroVerde 1.0 • Unidade Capanema</h2>
+            <p style="color:#475569; max-width:700px;">
+                Sistema desenvolvido para integrar aprendizado técnico e a gestão de fazendas e comércios agropecuários, 
+                conectando Web e Desktop ao banco SQLite.
+            </p>
 
-            <hr>
+            <div class="modern-grid" style="margin-top: 2rem;">
+                <!-- Módulos -->
+                <div>
+                    <h3 style="color:#2E7D32; margin-bottom:1rem;">→ Módulos do Sistema</h3>
+                    <ul style="line-height:2; padding-left:1.2rem; color:#334155;">
+                        <li><strong>Clientes:</strong> Cadastro e histórico de produtores rurais e clientes.</li>
+                        <li><strong>Produtos:</strong> Controle de estoque de rações, sementes, fertilizantes e equipamentos.</li>
+                        <li><strong>Vendas:</strong> Registro de transações, orçamentos e baixa automática de estoque.</li>
+                    </ul>
+                </div>
 
-            <h3>🚀 Módulos do Sistema:</h3>
-            <!-- Tabela aplicada -->
-            <table border="1" style="width:100%; border-collapse: collapse; margin-top: 10px;">
-                <thead>
-                    <tr style="background-color: #eee;">
-                        <th>Ícone</th>
-                        <th>Descrição</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>👨‍🌾</td>
-                        <td><strong>Produtores Rurais:</strong> Cadastro de clientes e histórico de compras.</td>
-                    </tr>
-                    <tr>
-                        <td>🌾</td>
-                        <td><strong>Insumos Agrícolas:</strong> Controle de sementes, rações, fertilizantes e equipamentos.</td>
-                    </tr>
-                    <tr>
-                        <td>💰</td>
-                        <td><strong>Vendas:</strong> Registro de vendas de insumos e orçamentos para o campo.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card" style="margin-top: 20px;">
-            <h3>📊 Tecnologias</h3>
-            <ul>
-                <li><strong>Backend:</strong> Node.js com Express.</li>
-                <li><strong>Banco:</strong> SQLite (sisagro.db).</li>
-                <li><strong>Desktop:</strong> Visual Basic .NET (Módulo de Conexão).</li>
-            </ul>
+                <!-- Tecnologias -->
+                <div>
+                    <h3 style="color:#2E7D32; margin-bottom:1rem;">→ Tecnologias</h3>
+                    <ul style="line-height:2; padding-left:1.2rem; color:#334155;">
+                        <li><strong>Backend:</strong> Node.js com Express</li>
+                        <li><strong>Banco de Dados:</strong> SQLite (sisagro.db)</li>
+                        <li><strong>Desktop:</strong> Visual Basic .NET</li>
+                    </ul>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <span style="background:#E8F5E9; color:#2E7D32; padding:6px 14px; border-radius:9999px; font-size:0.85rem; font-weight:600;">
+                            #4CAF50 • Tema AgroVerde
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <footer class="rodape">
+        <div class="container-rodape">
+            <p>© 2026 AgroVerde - Sistema de Gestão para Agropecuária | Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
+        </div>
+    </footer>
 </body>
-<footer class="rodape">
-    <div class="container-rodape">
-        <p>&copy; 2026 SisAgro - Sistema de Gestão para Agropecuária | Unidade SENAI Capanema/PR</p>
-    </div>
-</footer>
 </html>

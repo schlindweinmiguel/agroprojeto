@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>AgroVerde • Login</title>
+</head>
+<body style="background: linear-gradient(#F1F8E9, #E8F5E9);">
+
+    <div class="login-container">
+        <div style="text-align:center; margin-bottom:1.5rem;">
+            <span style="font-size:3rem;">🌿</span>
+            <h1 style="margin:0.3rem 0 0;">AgroVerde</h1>
+            <p style="margin:0; color:#2E7D32; font-weight:600;">Sistema de Gestão Agropecuária</p>
+        </div>
+
+        <h2 style="text-align:center; margin-bottom:0.3rem;">Bem-vindo de volta!</h2>
+        <p style="text-align:center; color:#64748B;">Entre com suas credenciais para acessar o sistema</p>
+
+        <form id="loginForm">
+            <label style="font-weight:600; color:#334155;">E-mail ou CPF</label>
+            <input type="text" id="email" placeholder="seu@email.com ou CPF" value="admin@agroverde.com" required>
+
+            <label style="font-weight:600; color:#334155;">Senha</label>
+            <input type="password" id="senha" placeholder="Sua senha" value="123456" required>
+
+            <button type="submit" style="width:100%; margin-top:1rem; background:#2E7D32;">Entrar no Sistema</button>
+        </form>
+
+        <p style="text-align:center; margin-top:1.5rem; font-size:0.95rem;">
+            Ainda não tem conta? 
+            <a href="cadastro.html" style="color:#2E7D32; font-weight:600;">Cadastre-se gratuitamente</a>
+        </p>
+
+        <div style="margin-top:2rem; text-align:center; font-size:0.8rem; color:#94A3B8;">
+            Demo: use qualquer email + senha "123456"
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            if (senha === "123456") {
+                localStorage.setItem('usuarioLogado', email);
+                alert('Login realizado com sucesso! Bem-vindo ao AgroVerde.');
+                window.location.href = 'index.html';
+            } else {
+                alert('Senha incorreta. Use a senha demo: 123456');
+            }
+        });
+    </script>
+</body>
+</html>
