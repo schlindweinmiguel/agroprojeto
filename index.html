@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-    <title>AgroVerde - Sistema de Gestão</title>
+    <title>AgroVerde • Gestão para o Campo</title>
 </head>
 <body>
     <nav>
@@ -17,60 +17,80 @@
             <a href="produtos.html">Produtos</a>
             <a href="vendas.html">Vendas</a>
             <a href="servicos.html">Serviços</a>
-            <a href="consulta_vendas.html">Consulta Vendas</a>
-            <a href="login.html" style="background:#4CAF50; padding:8px 16px; border-radius:8px;">Sair</a>
+            <a href="pagamentos.html">Pagamentos</a>
+            <a href="login.html" style="background:#eab308; color:#111827; padding:10px 22px; border-radius:10px; font-weight:700;">Entrar</a>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <div class="container">
-        <!-- Hero Banner -->
         <header class="banner">
-            <h1>Bem-vindo ao <span style="color:#A5D6A7">AgroVerde</span></h1>
-            <p>Gestão Integrada para Agropecuária</p>
+            <div style="max-width: 800px; margin: 0 auto; position: relative; z-index: 2;">
+                <h1 style="font-size: 3.8rem; line-height: 1.05;">
+                    Gestão profissional<br>para sua <span style="color:#fef08c;">agropecuária</span>
+                </h1>
+                <p style="font-size: 1.35rem; margin-top: 1.2rem; max-width: 620px;">
+                    O sistema completo para produtores rurais, revendas e cooperativas. 
+                    Controle de vendas, estoque, serviços e pagamentos em um só lugar.
+                </p>
+                
+                <div style="margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center;">
+                    <a href="login.html" style="background:#fef08c; color:#14532d; padding:16px 36px; border-radius:14px; font-weight:700; text-decoration:none; display:inline-block;">
+                        Começar agora
+                    </a>
+                    <a href="#modulos" style="background:rgba(255,255,255,0.15); color:white; padding:16px 32px; border-radius:14px; font-weight:600; text-decoration:none; display:inline-block; border: 2px solid rgba(255,255,255,0.3);">
+                        Ver módulos
+                    </a>
+                </div>
+            </div>
         </header>
 
-        <div class="card">
-            <h2 style="color:#1B5E20; margin-bottom:0.5rem;">AgroVerde 1.0 • Unidade Capanema</h2>
-            <p style="color:#475569; max-width:700px;">
-                Sistema desenvolvido para integrar aprendizado técnico e a gestão de fazendas e comércios agropecuários, 
-                conectando Web e Desktop ao banco SQLite.
-            </p>
+        <!-- Módulos -->
+        <div id="modulos">
+            <h2 style="text-align:center; font-size:2.2rem; margin-bottom: 2.5rem; color:#166534;">
+                Tudo que sua fazenda precisa
+            </h2>
 
-            <div class="modern-grid" style="margin-top: 2rem;">
-                <!-- Módulos -->
-                <div>
-                    <h3 style="color:#2E7D32; margin-bottom:1rem;">→ Módulos do Sistema</h3>
-                    <ul style="line-height:2; padding-left:1.2rem; color:#334155;">
-                        <li><strong>Clientes:</strong> Cadastro e histórico de produtores rurais e clientes.</li>
-                        <li><strong>Produtos:</strong> Controle de estoque de rações, sementes, fertilizantes e equipamentos.</li>
-                        <li><strong>Vendas:</strong> Registro de transações, orçamentos e baixa automática de estoque.</li>
-                        <li><strong>Serviços:</strong> Veterinários e técnicos agrícolas.</li>
-                    </ul>
+            <div class="modern-grid">
+                <div class="card">
+                    <div style="font-size:2.8rem; margin-bottom:1rem;">👨‍🌾</div>
+                    <h3>Gestão de Produtores</h3>
+                    <p>Cadastro completo com endereço, histórico de compras e observações.</p>
                 </div>
+                
+                <div class="card">
+                    <div style="font-size:2.8rem; margin-bottom:1rem;">🌾</div>
+                    <h3>Controle de Insumos</h3>
+                    <p>Estoque inteligente com categorias, fornecedores e alerta de estoque mínimo.</p>
+                </div>
+                
+                <div class="card">
+                    <div style="font-size:2.8rem; margin-bottom:1rem;">💰</div>
+                    <h3>Vendas & Orçamentos</h3>
+                    <p>Carrinho inteligente com baixa automática de estoque e controle de pagamentos.</p>
+                </div>
+                
+                <div class="card">
+                    <div style="font-size:2.8rem; margin-bottom:1rem;">🩺</div>
+                    <h3>Serviços Agropecuários</h3>
+                    <p>Cadastro de serviços veterinários e agronômicos com profissionais.</p>
+                </div>
+            </div>
+        </div>
 
-                <!-- Tecnologias -->
-                <div>
-                    <h3 style="color:#2E7D32; margin-bottom:1rem;">→ Tecnologias</h3>
-                    <ul style="line-height:2; padding-left:1.2rem; color:#334155;">
-                        <li><strong>Backend:</strong> Node.js com Express</li>
-                        <li><strong>Banco de Dados:</strong> SQLite (sisagro.db)</li>
-                        <li><strong>Desktop:</strong> Visual Basic .NET</li>
-                    </ul>
-                    
-                    <div style="margin-top: 1.5rem;">
-                        <span style="background:#E8F5E9; color:#2E7D32; padding:6px 14px; border-radius:9999px; font-size:0.85rem; font-weight:600;">
-                            #4CAF50 • Tema AgroVerde
-                        </span>
-                    </div>
-                </div>
+        <div style="margin-top: 4rem; text-align:center;">
+            <div class="card" style="max-width: 720px; margin: 0 auto; background: linear-gradient(135deg, #166534, #14532d); color: white;">
+                <h2 style="color:white; margin-top:0;">Pronto para modernizar sua gestão?</h2>
+                <p style="opacity:0.9; font-size:1.1rem;">Sistema desenvolvido com tecnologia moderna e pensado especialmente para o agronegócio brasileiro.</p>
+                <a href="login.html" style="background:white; color:#166534; padding:14px 40px; border-radius:12px; font-weight:700; text-decoration:none; display:inline-block; margin-top:1rem;">
+                    Acessar o Sistema
+                </a>
             </div>
         </div>
     </div>
 
     <footer class="rodape">
-        <div class="container-rodape">
-            <p>© 2026 AgroVerde - Sistema de Gestão para Agropecuária | Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
-        </div>
+        <p>© 2026 AgroVerde — Sistema de Gestão para Agropecuária | Unidade SENAI Capanema/PR</p>
     </footer>
 </body>
 </html>
