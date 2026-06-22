@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>AgroVerde • Pagamentos</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <span class="logo">🌿</span>
+            <span>AgroVerde</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="vendas.html">Vendas</a>
+            <a href="servicos.html">Serviços</a>
+            <a href="pagamentos.html">Pagamentos</a>
+            <a href="consulta_vendas.html">Consulta Vendas</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h1 style="margin-top:0; color:#1B5E20;">Controle de Pagamentos</h1>
+            <p style="color:#64748B;">Registre pagamentos recebidos das vendas realizadas.</p>
+        </div>
+
+        <!-- Formulário para registrar pagamento -->
+        <div class="card">
+            <h2>Registrar Novo Pagamento</h2>
+            <form id="formPagamento">
+                <div class="modern-grid">
+                    <div>
+                        <label>Venda (ID)</label>
+                        <input type="number" id="venda_id" placeholder="Digite o ID da venda" required>
+                    </div>
+                    <div>
+                        <label>Valor Pago (R$)</label>
+                        <input type="number" step="0.01" id="valor_pago" placeholder="150.00" required>
+                    </div>
+                </div>
+
+                <div class="modern-grid">
+                    <div>
+                        <label>Método de Pagamento</label>
+                        <select id="metodo_pagamento" required>
+                            <option value="PIX">PIX</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Cartão Débito">Cartão de Débito</option>
+                            <option value="Cartão Crédito">Cartão de Crédito</option>
+                            <option value="Boleto">Boleto Bancário</option>
+                            <option value="Transferência">Transferência</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Observações</label>
+                        <input type="text" id="observacoes" placeholder="Ex: Parcela 1/3">
+                    </div>
+                </div>
+
+                <button type="submit" style="margin-top:1rem;">Registrar Pagamento</button>
+            </form>
+        </div>
+
+        <!-- Lista de Pagamentos -->
+        <div class="card">
+            <h2>Histórico de Pagamentos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                        <th>Valor Pago</th>
+                        <th>Método</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-pagamentos"></tbody>
+            </table>
+            </div>
+        </div>
+
+    <footer class="rodape">
+        <p>© 2026 AgroVerde - Sistema de Gestão para Agropecuária</p>
+    </footer>
+
+    <script>
+        function carregarPagamentos() {
+            fetch('/listar-pagamentos')
+                .then(res => res.json())
+                .then(pagamentos => {
+                    const corpo = document.getElementById('lista-pagamentos');
+                    corpo.innerHTML = '';
+                    pagamentos.forEach(p => {
+                        corpo.innerHTML += `
+                            <tr>
+                                <td><strong>#${p.id}</strong></td>
+                                <td>${p.data_pagamento}</td>
+                                <td>${p.nome_cliente}</td>
+                                <td><strong>R$ ${p.valor_pago.toFixed(2)}</strong></td>
+                                <td><span style="background:#dcfce7; padding:2px 8px; border-radius:4px;">${p.metodo_pagamento}</span></td>
+                                <td>${p.observacoes || '-'}</td>
+                            </tr>`;
+                    });
+                });
+        }
+
+        document.getElementById('formPagamento').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const dados = {
+                venda_id: parseInt(document.getElementById('venda_id').value),
+                valor_pago: parseFloat(document.getElementById('valor_pago').value),
+                metodo_pagamento: document.getElementById('metodo_pagamento').value,
+                observacoes: document.getElementById('observacoes').value
+            };
+
+            fetch('/registrar-pagamento', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            })
+            .then(res => res.json())
+            .then(resposta => {
+                if (resposta.success) {
+                    alert('Pagamento registrado com sucesso!');
+                    document.getElementById('formPagamento').reset();
+                    carregarPagamentos();
+                } else {
+                    alert('Erro ao registrar pagamento.');
+                }
+            });
+        });
+
+        window.onload = carregarPagamentos;
+    </script>
+</body>
+</html>
