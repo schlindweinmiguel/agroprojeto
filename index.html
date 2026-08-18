@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilo.css">
     <title>AgroVerde • Gestão para o Campo</title>
 </head>
@@ -18,73 +19,59 @@
             <a href="vendas.html">Vendas</a>
             <a href="servicos.html">Serviços</a>
             <a href="pagamentos.html">Pagamentos</a>
-            <a href="login.html" style="background:#eab308; color:#111827; padding:10px 22px; border-radius:10px; font-weight:700;">Entrar</a>
+            <a href="consulta_vendas.html">Consulta</a>
+            <a href="login.html" class="btn-nav">Entrar</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="container">
+        <!-- Hero -->
         <header class="banner">
-            <div style="max-width: 800px; margin: 0 auto; position: relative; z-index: 2;">
-                <h1 style="font-size: 3.8rem; line-height: 1.05;">
-                    Gestão profissional<br>para sua <span style="color:#fef08c;">agropecuária</span>
-                </h1>
-                <p style="font-size: 1.35rem; margin-top: 1.2rem; max-width: 620px;">
-                    O sistema completo para produtores rurais, revendas e cooperativas. 
-                    Controle de vendas, estoque, serviços e pagamentos em um só lugar.
-                </p>
-                
-                <div style="margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center;">
-                    <a href="login.html" style="background:#fef08c; color:#14532d; padding:16px 36px; border-radius:14px; font-weight:700; text-decoration:none; display:inline-block;">
-                        Começar agora
-                    </a>
-                    <a href="#modulos" style="background:rgba(255,255,255,0.15); color:white; padding:16px 32px; border-radius:14px; font-weight:600; text-decoration:none; display:inline-block; border: 2px solid rgba(255,255,255,0.3);">
-                        Ver módulos
-                    </a>
-                </div>
+            <h1>Gestão profissional<br>para sua <span style="color:#fef08c">agropecuária</span></h1>
+            <p>Controle completo de produtores, insumos, vendas, serviços e pagamentos em uma plataforma moderna e intuitiva.</p>
+            <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                <a href="login.html" style="background:#fef08c; color:#14532d; padding:14px 32px; border-radius:12px; font-weight:700; text-decoration:none;">Começar agora</a>
+                <a href="#modulos" style="background:rgba(255,255,255,0.15); color:white; padding:14px 28px; border-radius:12px; font-weight:600; text-decoration:none; border:2px solid rgba(255,255,255,0.3);">Ver módulos</a>
             </div>
         </header>
 
         <!-- Módulos -->
-        <div id="modulos">
-            <h2 style="text-align:center; font-size:2.2rem; margin-bottom: 2.5rem; color:#166534;">
-                Tudo que sua fazenda precisa
-            </h2>
-
-            <div class="modern-grid">
-                <div class="card">
-                    <div style="font-size:2.8rem; margin-bottom:1rem;">👨‍🌾</div>
-                    <h3>Gestão de Produtores</h3>
-                    <p>Cadastro completo com endereço, histórico de compras e observações.</p>
+        <section id="modulos">
+            <h2 style="text-align:center; font-size:1.8rem; color:#166534; margin-bottom:2rem; font-weight:700;">Tudo que sua fazenda precisa</h2>
+            
+            <div class="grid-4">
+                <div class="card" style="text-align:center;">
+                    <div style="font-size:2.6rem; margin-bottom:0.8rem;">👨‍🌾</div>
+                    <h3 style="color:#166534; margin-bottom:0.5rem;">Produtores</h3>
+                    <p class="text-muted" style="font-size:0.95rem;">Cadastro completo com endereço, histórico e observações.</p>
                 </div>
                 
-                <div class="card">
-                    <div style="font-size:2.8rem; margin-bottom:1rem;">🌾</div>
-                    <h3>Controle de Insumos</h3>
-                    <p>Estoque inteligente com categorias, fornecedores e alerta de estoque mínimo.</p>
+                <div class="card" style="text-align:center;">
+                    <div style="font-size:2.6rem; margin-bottom:0.8rem;">🌾</div>
+                    <h3 style="color:#166534; margin-bottom:0.5rem;">Insumos</h3>
+                    <p class="text-muted" style="font-size:0.95rem;">Estoque inteligente com categorias e alerta de mínimo.</p>
                 </div>
                 
-                <div class="card">
-                    <div style="font-size:2.8rem; margin-bottom:1rem;">💰</div>
-                    <h3>Vendas & Orçamentos</h3>
-                    <p>Carrinho inteligente com baixa automática de estoque e controle de pagamentos.</p>
+                <div class="card" style="text-align:center;">
+                    <div style="font-size:2.6rem; margin-bottom:0.8rem;">💰</div>
+                    <h3 style="color:#166534; margin-bottom:0.5rem;">Vendas</h3>
+                    <p class="text-muted" style="font-size:0.95rem;">Carrinho com baixa automática e controle de pagamentos.</p>
                 </div>
                 
-                <div class="card">
-                    <div style="font-size:2.8rem; margin-bottom:1rem;">🩺</div>
-                    <h3>Serviços Agropecuários</h3>
-                    <p>Cadastro de serviços veterinários e agronômicos com profissionais.</p>
+                <div class="card" style="text-align:center;">
+                    <div style="font-size:2.6rem; margin-bottom:0.8rem;">🩺</div>
+                    <h3 style="color:#166534; margin-bottom:0.5rem;">Serviços</h3>
+                    <p class="text-muted" style="font-size:0.95rem;">Veterinários e técnicos agronômicos cadastrados.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div style="margin-top: 4rem; text-align:center;">
-            <div class="card" style="max-width: 720px; margin: 0 auto; background: linear-gradient(135deg, #166534, #14532d); color: white;">
-                <h2 style="color:white; margin-top:0;">Pronto para modernizar sua gestão?</h2>
-                <p style="opacity:0.9; font-size:1.1rem;">Sistema desenvolvido com tecnologia moderna e pensado especialmente para o agronegócio brasileiro.</p>
-                <a href="login.html" style="background:white; color:#166534; padding:14px 40px; border-radius:12px; font-weight:700; text-decoration:none; display:inline-block; margin-top:1rem;">
-                    Acessar o Sistema
-                </a>
+        <!-- CTA final -->
+        <div style="margin-top:3rem;">
+            <div class="card" style="background:linear-gradient(135deg,#166534,#14532d); color:white; text-align:center; padding:2.5rem;">
+                <h2 style="color:white; margin-bottom:0.75rem;">Pronto para modernizar sua gestão?</h2>
+                <p style="opacity:0.9; margin-bottom:1.5rem;">Sistema pensado especialmente para o agronegócio brasileiro.</p>
+                <a href="login.html" style="background:white; color:#166534; padding:12px 36px; border-radius:12px; font-weight:700; text-decoration:none; display:inline-block;">Acessar o Sistema</a>
             </div>
         </div>
     </div>
